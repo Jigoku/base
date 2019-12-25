@@ -3018,7 +3018,7 @@ namespace game
                 else
                 {
                     defformatstring(musicfile, "%s", mapmusic);
-                    if(musicdir[0] && (type == 2 || type == 5 || ((type == 1 || type == 4) && (!musicfile[0] || !fileexists(findfile(musicfile, "r"), "r")))))
+                    if(musicdir[0] && (type == 2 || type == 5 || ((type == 1 || type == 4) && (!musicfile[0] || fileexists(findfile(musicfile, "r"), "r")))))
                     {
                         vector<char *> files;
                         listfiles(musicdir, NULL, files);
