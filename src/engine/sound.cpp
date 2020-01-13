@@ -602,7 +602,7 @@ int playsound(int n, const vec &pos, physent *d, int flags, int vol, int maxrad,
                 s.minrad = y;
                 s.material = mat;
                 s.flags = flags;
-                s.millis = oldhook ? sounds[*oldhook].millis : lastmillis;
+                s.millis = oldhook && sounds.inrange(*oldhook) ? sounds[*oldhook].millis : lastmillis;
                 s.ends = ends;
                 s.slotnum = n;
                 s.owner = d;
@@ -631,11 +631,10 @@ int playsound(int n, const vec &pos, physent *d, int flags, int vol, int maxrad,
     return -1;
 }
 
-void sound(int *n, int *vol, int *flags)
+ICOMMAND(0, sound, "iib", (int *n, int *vol, int *flags),
 {
     intret(playsound(*n, camera1->o, camera1, *flags >= 0 ? *flags : SND_FORCED, *vol ? *vol : -1));
-}
-COMMAND(0, sound, "iib");
+});
 
 void removemapsounds()
 {

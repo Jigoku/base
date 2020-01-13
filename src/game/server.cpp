@@ -1225,7 +1225,7 @@ namespace server
     void deleteinfo(void *ci) { delete (clientinfo *)ci; }
 
     int numchannels() { return 3; }
-    int spectatorslots() { return clamp(G(serverspectators) >= 0 ? G(serverspectators) : G(serverclients), 1, MAXCLIENTS); }
+    int spectatorslots() { return clamp(G(serverspectators) >= 0 ? G(serverspectators) : G(serverclients), 0, MAXCLIENTS); }
     int maxslots() { return clamp(G(serverclients)+spectatorslots(), 1, MAXCLIENTS); }
     int reserveclients() { return maxslots()+4; }
     int dupclients() { return G(serverdupclients); }
@@ -6332,8 +6332,8 @@ namespace server
                     ci->wantsmap = ci->gettingmap = false;
                     if(!m_edit(gamemode))
                     {
-                        if(hasmapdata()) srvoutf(4, "\fy%s has map crc: \fs\fc0x%.8x\fS (server: \fs\fc0x%.8x\fS)", colourname(ci), ci->clientcrc, smapcrc);
-                        else srvoutf(4, "\fy%s has map crc: \fs\fc0x%.8x\fS", colourname(ci), ci->clientcrc);
+                        if(hasmapdata() && ci->clientcrc != smapcrc) srvoutf(4, "\fy%s has a modified map (CRC \fs\fc0x%.8x\fS, server has \fs\fc0x%.8x\fS)", colourname(ci), ci->clientcrc, smapcrc);
+                        else srvoutf(4, "\fy%s has map CRC: \fs\fc0x%.8x\fS", colourname(ci), ci->clientcrc);
                     }
                     if(crclocked(ci, true)) getmap(ci);
                     if(ci->isready()) aiman::poke();

@@ -348,7 +348,7 @@ namespace game
     VAR(IDF_PERSIST, footstepsoundminrad, -1, -1, 255);
     VAR(IDF_PERSIST, footstepsoundmaxrad, -1, -1, 255);
 
-    VAR(IDF_PERSIST, nogore, 0 , 0, 2); // turns off all gore, 0 = off, 1 = replace, 2 = remove
+    VAR(IDF_PERSIST, nogore, 0, 0, 2); // turns off all gore, 0 = off, 1 = replace, 2 = remove
     VAR(IDF_PERSIST, forceplayermodel, -1, -1, PLAYERTYPES-1);
     VAR(IDF_PERSIST, forceplayerpattern, -1, -1, PLAYERPATTERNS-1);
     VAR(IDF_PERSIST, vanitymodels, 0, 1, 1);
@@ -1056,6 +1056,10 @@ namespace game
 
     void boosteffect(gameent *d, const vec &pos, int num, int len, bool shape = false)
     {
+        // Prevent spawning particles while the game is paused, as it doesn't clear particles in this state.
+        // Otherwise, the number of particles could become very large, causing the renderer to slow down to a crawl.
+        if(paused) return;
+
         float scale = 0.4f+(rnd(40)/100.f);
         part_create(PART_HINT_BOLD_SOFT, shape ? len/2 : len/10, pos, getcolour(d, playereffecttone, playereffecttonelevel), scale*1.5f, scale*0.75f, 0, 0);
         part_create(PART_FIREBALL_SOFT, shape ? len/2 : len/10, pos, pulsehexcol(d, PULSE_FIRE), scale*1.25f, scale*0.75f, 0, 0);
