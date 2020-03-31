@@ -79,7 +79,7 @@ extern const enttypes enttype[] = {
     },
     {
         LIGHT,          1,          59,     0,      EU_NONE,    11,         -1,         -1,     9,      10,
-            (1<<LIGHTFX), (1<<LIGHTFX), 0,
+            (1<<LIGHTFX)|(1<<TRIGGER), (1<<LIGHTFX)|(1<<TRIGGER), 0,
             false,  false,  false,      false,      false,
                 "light",        { "radius", "red",      "green",    "blue",     "flare",    "fscale",   "flags",    "palette",  "palindex", "variant",  "fxlevel"  }
     },
@@ -172,8 +172,8 @@ extern const enttypes enttype[] = {
     },
     {
         TRIGGER,        1,          58,     16,     EU_AUTO,    8,          5,          -1,     7,      -1,
-            (1<<MAPMODEL)|(1<<MAPSOUND)|(1<<PARTICLES)|(1<<LIGHTFX),
-            (1<<MAPMODEL)|(1<<MAPSOUND)|(1<<PARTICLES)|(1<<LIGHTFX),
+            (1<<MAPMODEL)|(1<<MAPSOUND)|(1<<PARTICLES)|(1<<LIGHTFX)|(1<<LIGHT),
+            (1<<MAPMODEL)|(1<<MAPSOUND)|(1<<PARTICLES)|(1<<LIGHTFX)|(1<<LIGHT),
             (1<<ENT_PLAYER)|(1<<ENT_AI),
             false,  true,   true,       false,      true,
                 "trigger",      { "id",     "type",     "action",   "radius",   "state",    "modes",    "muts",     "variant" }
