@@ -697,19 +697,19 @@ void rendermaterialmask()
     glEnable(GL_CULL_FACE);
 }
 
-#define GLASSVARS(type, name) \
-    CVAR(IDF_WORLD, name##colour##type, 0xB0D8FF); \
-    FVAR(IDF_WORLD, name##refract##type, 0, 0.1f, 1e3f); \
-    VAR(IDF_WORLD, name##spec##type, 0, 150, 200);
+#define GLASSVARS(type, name, flags) \
+    CVAR(IDF_WORLD|flags, name##colour##type, 0xB0D8FF); \
+    FVAR(IDF_WORLD|flags, name##refract##type, 0, 0.1f, 1e3f); \
+    VAR(IDF_WORLD|flags, name##spec##type, 0, 150, 200);
 
-GLASSVARS(, glass)
-GLASSVARS(, glass2)
-GLASSVARS(, glass3)
-GLASSVARS(, glass4)
-GLASSVARS(alt, glass)
-GLASSVARS(alt, glass2)
-GLASSVARS(alt, glass3)
-GLASSVARS(alt, glass4)
+GLASSVARS(, glass, IDF_VARIANT)
+GLASSVARS(, glass2, IDF_VARIANT)
+GLASSVARS(, glass3, IDF_VARIANT)
+GLASSVARS(, glass4, IDF_VARIANT)
+GLASSVARS(alt, glass, 0)
+GLASSVARS(alt, glass2, 0)
+GLASSVARS(alt, glass3, 0)
+GLASSVARS(alt, glass4, 0)
 
 GETMATIDXVAR(glass, colour, const bvec &)
 GETMATIDXVAR(glass, refract, float)
@@ -839,4 +839,3 @@ void renderminimapmaterials()
 
     glEnable(GL_CULL_FACE);
 }
-

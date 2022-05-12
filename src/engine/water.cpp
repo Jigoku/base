@@ -373,31 +373,31 @@ static inline void rendervolume(const materialsurface &m, int mat = MAT_WATER)
         rendervertwater(m.csize, m.o.x, m.o.y, m.o.z, m.csize, mat);
 }
 
-#define WATERVARS(type, name) \
-    CVAR(IDF_WORLD, name##colour##type, 0x01212C); \
-    CVAR(IDF_WORLD, name##deepcolour##type, 0x010A10); \
-    CVAR(IDF_WORLD, name##deepfade##type, 0x60BFFF); \
-    CVAR(IDF_WORLD, name##refractcolour##type, 0xFFFFFF); \
-    VAR(IDF_WORLD, name##fog##type, 0, 30, 10000); \
-    VAR(IDF_WORLD, name##deep##type, 0, 50, 10000); \
-    VAR(IDF_WORLD, name##spec##type, 0, 150, 200); \
-    FVAR(IDF_WORLD, name##refract##type, 0, 0.1f, 1e3f); \
-    CVAR(IDF_WORLD, name##fallcolour##type, 0); \
-    CVAR(IDF_WORLD, name##fallrefractcolour##type, 0); \
-    VAR(IDF_WORLD, name##fallspec##type, 0, 150, 200); \
-    FVAR(IDF_WORLD, name##fallrefract##type, 0, 0.1f, 1e3f); \
-    VAR(IDF_WORLD, name##reflectstep##type, 1, 32, 10000); \
-    FVAR(IDF_WORLD, name##fallscrollx##type, FVAR_MIN, 0, FVAR_MAX); \
-    FVAR(IDF_WORLD, name##fallscrolly##type, FVAR_MIN, -5, FVAR_MAX);
+#define WATERVARS(type, name, flags) \
+    CVAR(IDF_WORLD|flags, name##colour##type, 0x01212C); \
+    CVAR(IDF_WORLD|flags, name##deepcolour##type, 0x010A10); \
+    CVAR(IDF_WORLD|flags, name##deepfade##type, 0x60BFFF); \
+    CVAR(IDF_WORLD|flags, name##refractcolour##type, 0xFFFFFF); \
+    VAR(IDF_WORLD|flags, name##fog##type, 0, 30, 10000); \
+    VAR(IDF_WORLD|flags, name##deep##type, 0, 50, 10000); \
+    VAR(IDF_WORLD|flags, name##spec##type, 0, 150, 200); \
+    FVAR(IDF_WORLD|flags, name##refract##type, 0, 0.1f, 1e3f); \
+    CVAR(IDF_WORLD|flags, name##fallcolour##type, 0); \
+    CVAR(IDF_WORLD|flags, name##fallrefractcolour##type, 0); \
+    VAR(IDF_WORLD|flags, name##fallspec##type, 0, 150, 200); \
+    FVAR(IDF_WORLD|flags, name##fallrefract##type, 0, 0.1f, 1e3f); \
+    VAR(IDF_WORLD|flags, name##reflectstep##type, 1, 32, 10000); \
+    FVAR(IDF_WORLD|flags, name##fallscrollx##type, FVAR_MIN, 0, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, name##fallscrolly##type, FVAR_MIN, -5, FVAR_MAX);
 
-WATERVARS(, water)
-WATERVARS(, water2)
-WATERVARS(, water3)
-WATERVARS(, water4)
-WATERVARS(alt, water)
-WATERVARS(alt, water2)
-WATERVARS(alt, water3)
-WATERVARS(alt, water4)
+WATERVARS(, water, IDF_VARIANT)
+WATERVARS(, water2, IDF_VARIANT)
+WATERVARS(, water3, IDF_VARIANT)
+WATERVARS(, water4, IDF_VARIANT)
+WATERVARS(alt, water, 0)
+WATERVARS(alt, water2, 0)
+WATERVARS(alt, water3, 0)
+WATERVARS(alt, water4, 0)
 
 GETMATIDXVAR(water, colour, const bvec &)
 GETMATIDXVAR(water, deepcolour, const bvec &)
@@ -419,25 +419,25 @@ VARF(IDF_PERSIST, waterreflect, 0, 1, 1, { preloadwatershaders(); });
 VARF(IDF_PERSIST, waterenvmap, 0, 1, 1, { preloadwatershaders(); });
 VARF(IDF_PERSIST, waterfallenv, 0, 1, 1, preloadwatershaders());
 
-#define LAVAVARS(type, name) \
-    CVAR(IDF_WORLD, name##colour##type, 0xFF4000); \
-    VAR(IDF_WORLD, name##fog##type, 0, 50, 10000); \
-    FVAR(IDF_WORLD, name##glowmin##type, 0, 0.25f, 2); \
-    FVAR(IDF_WORLD, name##glowmax##type, 0, 1.0f, 2); \
-    VAR(IDF_WORLD, name##spec##type, 0, 25, 200); \
-    FVAR(IDF_WORLD, name##scrollx##type, FVAR_MIN, 1, FVAR_MAX); \
-    FVAR(IDF_WORLD, name##scrolly##type, FVAR_MIN, 1, FVAR_MAX); \
-    FVAR(IDF_WORLD, name##fallscrollx##type, FVAR_MIN, 0, FVAR_MAX); \
-    FVAR(IDF_WORLD, name##fallscrolly##type, FVAR_MIN, -5, FVAR_MAX);
+#define LAVAVARS(type, name, flags) \
+    CVAR(IDF_WORLD|flags, name##colour##type, 0xFF4000); \
+    VAR(IDF_WORLD|flags, name##fog##type, 0, 50, 10000); \
+    FVAR(IDF_WORLD|flags, name##glowmin##type, 0, 0.25f, 2); \
+    FVAR(IDF_WORLD|flags, name##glowmax##type, 0, 1.0f, 2); \
+    VAR(IDF_WORLD|flags, name##spec##type, 0, 25, 200); \
+    FVAR(IDF_WORLD|flags, name##scrollx##type, FVAR_MIN, 1, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, name##scrolly##type, FVAR_MIN, 1, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, name##fallscrollx##type, FVAR_MIN, 0, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, name##fallscrolly##type, FVAR_MIN, -5, FVAR_MAX);
 
-LAVAVARS(, lava)
-LAVAVARS(, lava2)
-LAVAVARS(, lava3)
-LAVAVARS(, lava4)
-LAVAVARS(alt, lava)
-LAVAVARS(alt, lava2)
-LAVAVARS(alt, lava3)
-LAVAVARS(alt, lava4)
+LAVAVARS(, lava, 0)
+LAVAVARS(, lava2, 0)
+LAVAVARS(, lava3, 0)
+LAVAVARS(, lava4, 0)
+LAVAVARS(alt, lava, IDF_VARIANT)
+LAVAVARS(alt, lava2, IDF_VARIANT)
+LAVAVARS(alt, lava3, IDF_VARIANT)
+LAVAVARS(alt, lava4, IDF_VARIANT)
 
 GETMATIDXVAR(lava, colour, const bvec &)
 GETMATIDXVAR(lava, fog, int)
@@ -449,26 +449,26 @@ GETMATIDXVAR(lava, scrolly, float)
 GETMATIDXVAR(lava, fallscrollx, float)
 GETMATIDXVAR(lava, fallscrolly, float)
 
-#define VOLFOGVARS(type, name) \
-    CVAR(IDF_WORLD, name##colour##type, 0); \
-    CVAR(IDF_WORLD, name##deepcolour##type, 0); \
-    CVAR(IDF_WORLD, name##deepfade##type, 0); \
-    VAR(IDF_WORLD, name##dist##type, 0, 50, 10000); \
-    VAR(IDF_WORLD, name##deep##type, 0, 100, 10000); \
-    VAR(IDF_WORLD, name##texture##type, 0, 1, 2); \
-    CVAR(IDF_WORLD, name##texcolour##type, 0xFFFFFF); \
-    FVAR(IDF_WORLD, name##texblend##type, 0, 1, 1); \
-    FVAR(IDF_WORLD, name##scrollx##type, FVAR_MIN, 1, FVAR_MAX); \
-    FVAR(IDF_WORLD, name##scrolly##type, FVAR_MIN, 1, FVAR_MAX);
+#define VOLFOGVARS(type, name, flags) \
+    CVAR(IDF_WORLD|flags, name##colour##type, 0); \
+    CVAR(IDF_WORLD|flags, name##deepcolour##type, 0); \
+    CVAR(IDF_WORLD|flags, name##deepfade##type, 0); \
+    VAR(IDF_WORLD|flags, name##dist##type, 0, 50, 10000); \
+    VAR(IDF_WORLD|flags, name##deep##type, 0, 100, 10000); \
+    VAR(IDF_WORLD|flags, name##texture##type, 0, 1, 2); \
+    CVAR(IDF_WORLD|flags, name##texcolour##type, 0xFFFFFF); \
+    FVAR(IDF_WORLD|flags, name##texblend##type, 0, 1, 1); \
+    FVAR(IDF_WORLD|flags, name##scrollx##type, FVAR_MIN, 1, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, name##scrolly##type, FVAR_MIN, 1, FVAR_MAX);
 
-VOLFOGVARS(, volfog)
-VOLFOGVARS(, volfog2)
-VOLFOGVARS(, volfog3)
-VOLFOGVARS(, volfog4)
-VOLFOGVARS(alt, volfog)
-VOLFOGVARS(alt, volfog2)
-VOLFOGVARS(alt, volfog3)
-VOLFOGVARS(alt, volfog4)
+VOLFOGVARS(, volfog, IDF_VARIANT)
+VOLFOGVARS(, volfog2, IDF_VARIANT)
+VOLFOGVARS(, volfog3, IDF_VARIANT)
+VOLFOGVARS(, volfog4, IDF_VARIANT)
+VOLFOGVARS(alt, volfog, 0)
+VOLFOGVARS(alt, volfog2, 0)
+VOLFOGVARS(alt, volfog3, 0)
+VOLFOGVARS(alt, volfog4, 0)
 
 #define GETVFIDXVAR(name, var, type) \
     type get##name##var(int mat) \
@@ -861,4 +861,3 @@ void rendervolfog()
         }
     }
 }
-

@@ -29,63 +29,63 @@ GFVAR(IDF_GAMEMOD, 0, gravityjumpcrouch, 0, 1, FVAR_MAX);
 GFVAR(IDF_GAMEMOD, 0, buoyancycrouch, 0, 0, FVAR_MAX);
 GFVAR(IDF_GAMEMOD, 0, buoyancyjump, 0, 1.5f, FVAR_MAX);
 
-#define LIQUIDVARS(type, name) \
-    GFVAR(IDF_WORLD, 0, name##buoyancy##type, FVAR_MIN, 50.f, FVAR_MAX); \
-    GFVAR(IDF_GAMEMOD, 0, name##buoyancyscale##type, 0, 1, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##falldist##type, 0, 12.f, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##fallspeed##type, FVAR_MIN, 250.f, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##fallpush##type, 0, 0.35f, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##speed##type, 0, 0.85f, 1); \
-    GFVAR(IDF_GAMEMOD, 0, name##speedscale##type, 0, 1, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##coast##type, FVAR_NONZERO, 10.f, 1000); \
-    GFVAR(IDF_GAMEMOD, 0, name##coastscale##type, FVAR_NONZERO, 1, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##boost##type, 0, 0.5f, 1); \
-    GFVAR(IDF_GAMEMOD, 0, name##boostscale##type, 0, 1, FVAR_MAX); \
-    GFVAR(IDF_WORLD, 0, name##submerge##type, 0, 0.75f, 1); \
-    GFVAR(IDF_GAMEMOD, 0, name##submergescale##type, 0, 1, FVAR_MAX);
+#define LIQUIDVARS(type, name, flags) \
+    GFVAR(IDF_WORLD|flags, 0, name##buoyancy##type, FVAR_MIN, 50.f, FVAR_MAX); \
+    GFVAR(IDF_GAMEMOD|flags, 0, name##buoyancyscale##type, 0, 1, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##falldist##type, 0, 12.f, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##fallspeed##type, FVAR_MIN, 250.f, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##fallpush##type, 0, 0.35f, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##speed##type, 0, 0.85f, 1); \
+    GFVAR(IDF_GAMEMOD|flags, 0, name##speedscale##type, 0, 1, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##coast##type, FVAR_NONZERO, 10.f, 1000); \
+    GFVAR(IDF_GAMEMOD|flags, 0, name##coastscale##type, FVAR_NONZERO, 1, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##boost##type, 0, 0.5f, 1); \
+    GFVAR(IDF_GAMEMOD|flags, 0, name##boostscale##type, 0, 1, FVAR_MAX); \
+    GFVAR(IDF_WORLD|flags, 0, name##submerge##type, 0, 0.75f, 1); \
+    GFVAR(IDF_GAMEMOD|flags, 0, name##submergescale##type, 0, 1, FVAR_MAX);
 
-LIQUIDVARS(, water)
-LIQUIDVARS(, water2)
-LIQUIDVARS(, water3)
-LIQUIDVARS(, water4)
-LIQUIDVARS(alt, water)
-LIQUIDVARS(alt, water2)
-LIQUIDVARS(alt, water3)
-LIQUIDVARS(alt, water4)
-LIQUIDVARS(, lava)
-LIQUIDVARS(, lava2)
-LIQUIDVARS(, lava3)
-LIQUIDVARS(, lava4)
-LIQUIDVARS(alt, lava)
-LIQUIDVARS(alt, lava2)
-LIQUIDVARS(alt, lava3)
-LIQUIDVARS(alt, lava4)
+LIQUIDVARS(, water, IDF_VARIANT)
+LIQUIDVARS(, water2, IDF_VARIANT)
+LIQUIDVARS(, water3, IDF_VARIANT)
+LIQUIDVARS(, water4, IDF_VARIANT)
+LIQUIDVARS(alt, water, 0)
+LIQUIDVARS(alt, water2, 0)
+LIQUIDVARS(alt, water3, 0)
+LIQUIDVARS(alt, water4, 0)
+LIQUIDVARS(, lava, IDF_VARIANT)
+LIQUIDVARS(, lava2, IDF_VARIANT)
+LIQUIDVARS(, lava3, IDF_VARIANT)
+LIQUIDVARS(, lava4, IDF_VARIANT)
+LIQUIDVARS(alt, lava, 0)
+LIQUIDVARS(alt, lava2, 0)
+LIQUIDVARS(alt, lava3, 0)
+LIQUIDVARS(alt, lava4, 0)
 
-#define WATERVARS(type, name) \
+#define WATERVARS(type, name, flags) \
     GFVAR(IDF_WORLD, 0, name##extinguish##type, 0, 0.25f, 1); \
     GFVAR(IDF_GAMEMOD, 0, name##extinguishscale##type, 0, 1, FVAR_MAX);
 
-WATERVARS(, water)
-WATERVARS(, water2)
-WATERVARS(, water3)
-WATERVARS(, water4)
-WATERVARS(alt, water)
-WATERVARS(alt, water2)
-WATERVARS(alt, water3)
-WATERVARS(alt, water4)
+WATERVARS(, water, IDF_VARIANT)
+WATERVARS(, water2, IDF_VARIANT)
+WATERVARS(, water3, IDF_VARIANT)
+WATERVARS(, water4, IDF_VARIANT)
+WATERVARS(alt, water, 0)
+WATERVARS(alt, water2, 0)
+WATERVARS(alt, water3, 0)
+WATERVARS(alt, water4, 0)
 
-#define LAVAVARS(type, name) \
+#define LAVAVARS(type, name, flags) \
     GVAR(IDF_WORLD, 0, name##burntime##type, 0, 5500, VAR_MAX); \
     GVAR(IDF_WORLD, 0, name##burndelay##type, 1, 1000, VAR_MAX);
 
-LAVAVARS(, lava)
-LAVAVARS(, lava2)
-LAVAVARS(, lava3)
-LAVAVARS(, lava4)
-LAVAVARS(alt, lava)
-LAVAVARS(alt, lava2)
-LAVAVARS(alt, lava3)
-LAVAVARS(alt, lava4)
+LAVAVARS(, lava, IDF_VARIANT)
+LAVAVARS(, lava2, IDF_VARIANT)
+LAVAVARS(, lava3, IDF_VARIANT)
+LAVAVARS(, lava4, IDF_VARIANT)
+LAVAVARS(alt, lava, 0)
+LAVAVARS(alt, lava2, 0)
+LAVAVARS(alt, lava3, 0)
+LAVAVARS(alt, lava4, 0)
 
 GFVAR(IDF_WORLD, 0, floorcoast, FVAR_NONZERO, 5.f, 1000);
 GFVAR(IDF_GAMEMOD, 0, floorcoastscale, FVAR_NONZERO, 1, FVAR_MAX);

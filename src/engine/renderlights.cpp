@@ -238,16 +238,16 @@ void cleanupao()
         return name##var; \
     }
 
-#define AOVARS(name) \
-    FVAR(IDF_WORLD, aoradius##name, 0, 5, 256); \
-    FVAR(IDF_WORLD, aodark##name, 1e-3f, 11.0f, 1e3f); \
-    FVAR(IDF_WORLD, aomin##name, 0, 0.25f, 1); \
-    VARF(IDF_WORLD, aosun##name, 0, 1, 1, cleardeferredlightshaders()); \
-    FVAR(IDF_WORLD, aosunmin##name, 0, 0.5f, 1); \
-    FVAR(IDF_WORLD, aosharp##name, 1e-3f, 1, 1e3f);
+#define AOVARS(name, flags) \
+    FVAR(IDF_WORLD|flags, aoradius##name, 0, 5, 256); \
+    FVAR(IDF_WORLD|flags, aodark##name, 1e-3f, 11.0f, 1e3f); \
+    FVAR(IDF_WORLD|flags, aomin##name, 0, 0.25f, 1); \
+    VARF(IDF_WORLD|flags, aosun##name, 0, 1, 1, cleardeferredlightshaders()); \
+    FVAR(IDF_WORLD|flags, aosunmin##name, 0, 0.5f, 1); \
+    FVAR(IDF_WORLD|flags, aosharp##name, 1e-3f, 1, 1e3f);
 
-AOVARS();
-AOVARS(alt);
+AOVARS(, IDF_VARIANT);
+AOVARS(alt, 0);
 
 GETVARMPV(ao, radius, float);
 GETVARMPV(ao, dark, float);
@@ -963,11 +963,11 @@ void resolvemsaacolor(int w = vieww, int h = viewh)
     endtimer(resolvetimer);
 }
 
-#define HDRVARS(name) \
-    FVAR(IDF_WORLD, hdrbright##name, 1e-4f, 1.0f, 1e4f);
+#define HDRVARS(name, flags) \
+    FVAR(IDF_WORLD|flags, hdrbright##name, 1e-4f, 1.0f, 1e4f);
 
-HDRVARS();
-HDRVARS(alt);
+HDRVARS(, IDF_VARIANT);
+HDRVARS(alt, 0);
 
 GETVARMPV(hdr, bright, float);
 
@@ -1557,23 +1557,23 @@ VARF(IDF_PERSIST, rhtaps, 0, 20, 32, cleanupradiancehints());
 VAR(0, rhdyntex, 0, 0, 1);
 VAR(0, rhdynmm, 0, 0, 1);
 
-#define RHVARS(name) \
-    VARF(IDF_WORLD, rhnearplane##name, 1, 1, 16, clearradiancehintscache()); \
-    VARF(IDF_WORLD, rhfarplane##name, 64, 1024, 16384, clearradiancehintscache());
+#define RHVARS(name, flags) \
+    VARF(IDF_WORLD|flags, rhnearplane##name, 1, 1, 16, clearradiancehintscache()); \
+    VARF(IDF_WORLD|flags, rhfarplane##name, 64, 1024, 16384, clearradiancehintscache());
 
-RHVARS();
-RHVARS(alt);
+RHVARS(, IDF_VARIANT);
+RHVARS(alt, 0);
 
 GETVARMPV(rh, nearplane, float);
 GETVARMPV(rh, farplane, float);
 
-#define GIVARS(name) \
-    VARF(IDF_WORLD, gidist##name, 0, 384, 1024, { clearradiancehintscache(); cleardeferredlightshaders(); if(!gidist##name) cleanupradiancehints(); }); \
-    FVARF(IDF_WORLD, giscale##name, 0, 1.5f, 1e3f, { cleardeferredlightshaders(); if(!giscale##name) cleanupradiancehints(); }); \
-    FVAR(IDF_WORLD, giaoscale##name, 0, 3, 1e3f);
+#define GIVARS(name, flags) \
+    VARF(IDF_WORLD|flags, gidist##name, 0, 384, 1024, { clearradiancehintscache(); cleardeferredlightshaders(); if(!gidist##name) cleanupradiancehints(); }); \
+    FVARF(IDF_WORLD|flags, giscale##name, 0, 1.5f, 1e3f, { cleardeferredlightshaders(); if(!giscale##name) cleanupradiancehints(); }); \
+    FVAR(IDF_WORLD|flags, giaoscale##name, 0, 3, 1e3f);
 
-GIVARS();
-GIVARS(alt);
+GIVARS(, IDF_VARIANT);
+GIVARS(alt, 0);
 
 GETVARMPV(gi, dist, float);
 GETVARMPV(gi, scale, float);
@@ -1975,11 +1975,11 @@ VARN(0, lightbatchstacks, lightbatchstacksused, 1, 0, 0);
 
 VARF(IDF_WORLD, alphashadow, 0, 1, 2, { cleardeferredlightshaders(); cleanupshadowatlas(); });
 
-#define ALPHASHADOWVARS(name) \
-    FVARF(IDF_WORLD, alphashadowscale##name, 0, 1, 2, clearshadowcache());
+#define ALPHASHADOWVARS(name, flags) \
+    FVARF(IDF_WORLD|flags, alphashadowscale##name, 0, 1, 2, clearshadowcache());
 
-ALPHASHADOWVARS();
-ALPHASHADOWVARS(alt);
+ALPHASHADOWVARS(, IDF_VARIANT);
+ALPHASHADOWVARS(alt, 0);
 
 GETVARMPV(alphashadow, scale, float);
 
@@ -2173,12 +2173,12 @@ FVAR(0, csmpolyoffset2, -1e4f, 0, 1e4f);
 FVAR(0, csmbias2, -1e16f, 2e-4f, 1e6f);
 VAR(0, csmcull, 0, 1, 1);
 
-#define CSMVARS(name) \
-    VAR(IDF_WORLD, csmnearplane##name, 1, 1, 16); \
-    VAR(IDF_WORLD, csmfarplane##name, 64, 1024, 16384);
+#define CSMVARS(name, flags) \
+    VAR(IDF_WORLD|flags, csmnearplane##name, 1, 1, 16); \
+    VAR(IDF_WORLD|flags, csmfarplane##name, 64, 1024, 16384);
 
-CSMVARS();
-CSMVARS(alt);
+CSMVARS(, IDF_VARIANT);
+CSMVARS(alt, 0);
 
 GETVARMPV(csm, nearplane, float);
 GETVARMPV(csm, farplane, float);
@@ -2674,12 +2674,12 @@ FVAR(IDF_PERSIST, volprefilter, 0, 4, 1e3f);
 FVAR(0, voldistclamp, 0, 0.99f, 2);
 VAR(0, volderiv, -1, 1, 1);
 
-#define VOLVARS(name) \
-    CVAR(IDF_WORLD, volcolour##name, 0x808080); \
-    FVAR(IDF_WORLD, volscale##name, 0, 1, 16);
+#define VOLVARS(name, flags) \
+    CVAR(IDF_WORLD|flags, volcolour##name, 0x808080); \
+    FVAR(IDF_WORLD|flags, volscale##name, 0, 1, 16);
 
-VOLVARS();
-VOLVARS(alt);
+VOLVARS(, IDF_VARIANT);
+VOLVARS(alt, 0);
 
 GETVARMPV(vol, colour, const bvec &);
 GETVARMPV(vol, scale, float);

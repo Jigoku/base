@@ -120,25 +120,25 @@ void blendhalos()
     glDisable(GL_BLEND);
 }
 
-#define MPVVARS(name, type) \
-    VARF(IDF_WORLD, haze##name, 0, 0, 1, inithaze()); \
-    CVAR(IDF_WORLD, hazecolour##name, 0); \
-    FVAR(IDF_WORLD, hazecolourmix##name, 0, 0.5f, 1); \
-    FVAR(IDF_WORLD, hazeblend##name, 0, 1, 1); \
-    SVARF(IDF_WORLD, hazetex##name, "textures/watern", inithaze()); \
-    FVAR(IDF_WORLD, hazemindist##name, 0, 256, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazemaxdist##name, 0, 1024, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazemargin##name, FVAR_NONZERO, 32, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazescalex##name, FVAR_NONZERO, 1, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazescaley##name, FVAR_NONZERO, 2, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazerefract##name, FVAR_NONZERO, 2, 10); \
-    FVAR(IDF_WORLD, hazerefract2##name, FVAR_NONZERO, 4, 10); \
-    FVAR(IDF_WORLD, hazerefract3##name, FVAR_NONZERO, 8, 10); \
-    FVAR(IDF_WORLD, hazescrollx##name, FVAR_MIN, 0, FVAR_MAX); \
-    FVAR(IDF_WORLD, hazescrolly##name, FVAR_MIN, -0.5f, FVAR_MAX);
+#define MPVVARS(name, type, flags) \
+    VARF(IDF_WORLD|flags, haze##name, 0, 0, 1, inithaze()); \
+    CVAR(IDF_WORLD|flags, hazecolour##name, 0); \
+    FVAR(IDF_WORLD|flags, hazecolourmix##name, 0, 0.5f, 1); \
+    FVAR(IDF_WORLD|flags, hazeblend##name, 0, 1, 1); \
+    SVARF(IDF_WORLD|flags, hazetex##name, "textures/watern", inithaze()); \
+    FVAR(IDF_WORLD|flags, hazemindist##name, 0, 256, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazemaxdist##name, 0, 1024, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazemargin##name, FVAR_NONZERO, 32, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazescalex##name, FVAR_NONZERO, 1, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazescaley##name, FVAR_NONZERO, 2, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazerefract##name, FVAR_NONZERO, 2, 10); \
+    FVAR(IDF_WORLD|flags, hazerefract2##name, FVAR_NONZERO, 4, 10); \
+    FVAR(IDF_WORLD|flags, hazerefract3##name, FVAR_NONZERO, 8, 10); \
+    FVAR(IDF_WORLD|flags, hazescrollx##name, FVAR_MIN, 0, FVAR_MAX); \
+    FVAR(IDF_WORLD|flags, hazescrolly##name, FVAR_MIN, -0.5f, FVAR_MAX);
 
-MPVVARS(, MPV_DEF);
-MPVVARS(alt, MPV_ALT);
+MPVVARS(, MPV_DEF, IDF_VARIANT);
+MPVVARS(alt, MPV_ALT, 0);
 
 #define GETMPV(name, type) \
     type get##name() \

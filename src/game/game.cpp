@@ -127,12 +127,12 @@ namespace game
         player1->version.gpuversion = newstring(gfxversion);
     }
 
-    #define ILLUMVARS(name) \
-        FVAR(IDF_WORLD, illumlevel##name, 0, 0, 2); \
-        VAR(IDF_WORLD, illumradius##name, 0, 0, VAR_MAX);
+    #define ILLUMVARS(name, flags) \
+        FVAR(IDF_WORLD|flags, illumlevel##name, 0, 0, 2); \
+        VAR(IDF_WORLD|flags, illumradius##name, 0, 0, VAR_MAX);
 
-    ILLUMVARS();
-    ILLUMVARS(alt);
+    ILLUMVARS(, IDF_VARIANT);
+    ILLUMVARS(alt, 0);
 
     #define GETMPV(name, type) \
     type get##name() \

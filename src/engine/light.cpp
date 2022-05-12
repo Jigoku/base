@@ -8,22 +8,22 @@ void setlightdir(vec &dir, float yaw, float pitch)
     clearradiancehintscache();
 }
 
-#define PIESKYVARS(name, type) \
-    CVARF(IDF_WORLD, sunlight##name, 0, \
+#define PIESKYVARS(name, type, flags) \
+    CVARF(IDF_WORLD|flags, sunlight##name, 0, \
     { \
         if(!checkmapvariant(type)) return; \
         clearradiancehintscache(); \
         cleardeferredlightshaders(); \
         clearshadowcache(); \
     }); \
-    FVARF(IDF_WORLD, sunlightscale##name, 0, 1, 16, if(checkmapvariant(type)) clearradiancehintscache()); \
+    FVARF(IDF_WORLD|flags, sunlightscale##name, 0, 1, 16, if(checkmapvariant(type)) clearradiancehintscache()); \
     vec sunlightdir##name(0, 0, 1); \
     extern float sunlightpitch##name; \
-    FVARF(IDF_WORLD, sunlightyaw##name, 0, 0, 360, setlightdir(sunlightdir##name, sunlightyaw##name, sunlightpitch##name)); \
-    FVARF(IDF_WORLD, sunlightpitch##name, -90, 90, 90, setlightdir(sunlightdir##name, sunlightyaw##name, sunlightpitch##name)); \
+    FVARF(IDF_WORLD|flags, sunlightyaw##name, 0, 0, 360, setlightdir(sunlightdir##name, sunlightyaw##name, sunlightpitch##name)); \
+    FVARF(IDF_WORLD|flags, sunlightpitch##name, -90, 90, 90, setlightdir(sunlightdir##name, sunlightyaw##name, sunlightpitch##name)); \
 
-PIESKYVARS(, MPV_DEF);
-PIESKYVARS(alt, MPV_ALT);
+PIESKYVARS(, MPV_DEF, IDF_VARIANT);
+PIESKYVARS(alt, MPV_ALT, 0);
 
 #define GETSKYPIE(name, type) \
     type getpie##name() \
@@ -641,4 +641,3 @@ void initlights()
     clearshadowcache();
     loaddeferredlightshaders();
 }
-

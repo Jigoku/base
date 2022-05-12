@@ -938,44 +938,20 @@ static void sanevars()
     setvar("blankgeom", 0, false);
 }
 
-const char *variantvars[] = {
-    "ambient", "ambientscale", "skylight", "skylightscale", "fog", "fogcolour", "skybgcolour", "skybox", "skycolour", "skyblend", "skyoverbright", "skyoverbrightmin",
-    "skyoverbrightthreshold", "spinsky", "spinskypitch", "spinskyroll", "yawsky", "pitchsky", "rollsky", "cloudbox", "cloudcolour", "cloudblend",
-    "spinclouds", "spincloudspitch", "spincloudsroll", "yawclouds", "pitchclouds", "rollclouds", "cloudclip", "cloudlayer", "cloudlayercolour",
-    "cloudlayerblend", "cloudoffsetx", "cloudoffsety", "cloudscrollx", "cloudscrolly", "cloudscale", "spincloudlayer", "yawcloudlayer", "cloudheight", "cloudfade",
-    "cloudsubdiv", "envlayer", "envlayercolour", "envlayerblend", "envoffsetx", "envoffsety", "envscrollx", "envscrolly", "envscale", "spinenvlayer", "yawenvlayer",
-    "envheight", "envfade", "envsubdiv", "atmo", "atmoplanetsize", "atmoheight", "atmobright", "atmolight", "atmolightscale", "atmodisksize", "atmodiskbright",
-    "atmohaze", "atmohazefade", "atmohazefadescale", "atmoclarity", "atmodensity", "atmoblend", "fogdomeheight", "fogdomemin", "fogdomemax", "fogdomecap", "fogdomeclip",
-    "fogdomecolour", "fogdomeclouds", "skytexture", "skyshadow", "sunlight", "sunlightscale", "sunlightyaw", "sunlightpitch", "",
-    "aoradius", "aodark", "aomin", "aosun", "aosunmin", "aosharp", "gidist", "giscale", "giaoscale", "volcolour", "volscale",
-    "watercolour", "waterdeepcolour", "waterdeepfade", "waterrefractcolour", "waterfog", "waterdeep", "waterspec", "waterrefract", "waterfallcolour", "waterfallrefractcolour", "waterfallspec", "waterfallrefract", "waterreflectstep",
-    "water2colour", "water2deepcolour", "water2deepfade", "water2refractcolour", "water2fog", "water2deep", "water2spec", "water2refract", "water2fallcolour", "water2fallrefractcolour", "water2fallspec", "water2fallrefract", "water2reflectstep",
-    "water3colour", "water3deepcolour", "water3deepfade", "water3refractcolour", "water3fog", "water3deep", "water3spec", "water3refract", "water3fallcolour", "water3fallrefractcolour", "water3fallspec", "water3fallrefract", "water3reflectstep",
-    "water4colour", "water4deepcolour", "water4deepfade", "water4refractcolour", "water4fog", "water4deep", "water4spec", "water4refract", "water4fallcolour", "water4fallrefractcolour", "water4fallspec", "water4fallrefract", "water4reflectstep",
-    "lavacolour", "lavafog", "lavaglowmin", "lavaglowmax", "lavaspec", "lava2colour", "lava2fog", "lava2glowmin", "lava2glowmax", "lava2spec",
-    "lava3colour", "lava3fog", "lava3glowmin", "lava3glowmax", "lava3spec", "lava4colour", "lava4fog", "lava4glowmin", "lava4glowmax", "lava4spec",
-    "glasscolour", "glassrefract", "glassspec", "glass2colour", "glass2refract", "glass2spec", "glass3colour", "glass3refract", "glass3spec", "glass4colour", "glass4refract", "glass4spec",
-    "illumlevel", "illumradius",
-    NULL
-};
-
 void copyvariants(bool rev = false, bool all = false, int skip = 0)
 {
-    for(int v = 0, s = 0; variantvars[v]; v++)
-    {
-        if(!variantvars[v][0])
+    vector<ident *> variantvars;
+    enumerate(idents, ident, id, if(id.flags&IDF_VARIANT) variantvars.add(&id));
+    loopv(variantvars)
+    { 
+        if(i < skip) continue;
+        defformatstring(newvar, "%salt", variantvars[i]->name);
+        ident *v = idents.access(rev ? newvar : variantvars[i]->name);
+        if(v) switch(v->type)
         {
-            s++;
-            continue;
-        }
-        if(s < skip) continue;
-        defformatstring(newvar, "%salt", variantvars[v]);
-        ident *id = idents.access(rev ? newvar : variantvars[v]);
-        if(id) switch(id->type)
-        {
-            case ID_VAR: if(all || *id->storage.i != id->def.i) setvar(rev ? variantvars[v] : newvar, *id->storage.i, true, false, true); break;
-            case ID_FVAR: if(all || *id->storage.f != id->def.f) setfvar(rev ? variantvars[v] : newvar, *id->storage.f, true, false, true); break;
-            case ID_SVAR: if(all || strcmp(*id->storage.s, id->bin.s)) setsvar(rev ? variantvars[v] : newvar, *id->storage.s, true, false); break;
+            case ID_VAR:  if(all || *v->storage.i != v->def.i) setvar(rev ? variantvars[i]->name : newvar, *v->storage.i, true, false, true);  break;
+            case ID_FVAR: if(all || *v->storage.f != v->def.f) setfvar(rev ? variantvars[i]->name : newvar, *v->storage.f, true, false, true); break;
+            case ID_SVAR: if(all || strcmp(*v->storage.s, v->bin.s)) setsvar(rev ? variantvars[i]->name : newvar, *v->storage.s, true, false); break;
             default: break;
         }
     }
