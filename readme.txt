@@ -24,7 +24,7 @@ In a true open source by the people for the people nature, we try to work closel
     environment that is fun and easy to play, while still having elements to master.
 
 If you think you might have something to contribute to the game or community, please feel free to
-    drop by our [Discord server](https://www.redeclipse.net/chat) or [forums](https://www.redeclipse.net/forums)
+    drop by our [Discord server](https://www.redeclipse.net/chat) or [forums](https://www.redeclipse.net/discuss)
     and talk to us directly. We try to maintain a standard of friendly behaviour in our community,
     so don't be afraid to speak up and have your say in building this game for us all!
 
